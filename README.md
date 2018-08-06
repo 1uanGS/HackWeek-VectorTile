@@ -84,6 +84,7 @@ I found *[Google Mutant](https://gitlab.com/IvanSanchez/Leaflet.GridLayer.Google
 Leaflet is compatible with MapBox and MapBox is compatible with Tegola VTS, how we know. So, I decided tested with our VTS.
 
 **Why is it not implemented in the final version?**
+
 *Google Mutant* isn't a real google map. Actually load pictures of google maps, but not the real google maps.
 Also, I didn't found the way to implement our VTS with [Leaflet](https://leafletjs.com/reference-1.3.2.html#canvas). *(HakWeek finished)*
 
