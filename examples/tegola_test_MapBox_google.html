@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+  <html>
+
+  <head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRluFfSPrCVKmg7alZShVXqWisZFwVEqc&callback=initMap" async defer></script>
+      <!-- Google Mutant -->
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id='map'></div>
+    <script>
+
+      var map = L.map('map', mapopts).setView([50.7374,7.0982],11);
+
+      var roads = L.gridLayer.googleMutant({
+        maxZoom: 24,
+        type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+      }).addTo(map);
+
+      var satMutant = L.gridLayer.googleMutant({
+      maxZoom: 24,
+      type:'satellite'
+    });
+
+    var terrainMutant = L.gridLayer.googleMutant({
+      maxZoom: 24,
+      type:'terrain'
+    });
+
+    var hybridMutant = L.gridLayer.googleMutant({
+      maxZoom: 24,
+      type:'hybrid'
+    });
+
+    var styleMutant = L.gridLayer.googleMutant({
+      styles: [
+        {elementType: 'labels', stylers: [{visibility: 'off'}]},
+        {featureType: 'water', stylers: [{color: '#444444'}]},
+        {featureType: 'landscape', stylers: [{color: '#eeeeee'}]},
+        {featureType: 'road', stylers: [{visibility: 'off'}]},
+        {featureType: 'poi', stylers: [{visibility: 'off'}]},
+        {featureType: 'transit', stylers: [{visibility: 'off'}]},
+        {featureType: 'administrative', stylers: [{visibility: 'off'}]},
+        {featureType: 'administrative.locality', stylers: [{visibility: 'off'}]}
+      ],
+      maxZoom: 24,
+      type:'roadmap'
+    });
+
+    var trafficMutant = L.gridLayer.googleMutant({
+      maxZoom: 24,
+      type:'roadmap'
+    });
+    trafficMutant.addGoogleLayer('TrafficLayer');
+
+
+    var transitMutant = L.gridLayer.googleMutant({
+      maxZoom: 24,
+      type:'roadmap'
+    });
+    transitMutant.addGoogleLayer('TransitLayer');
+
+    L.control.layers({
+      Roadmap: roadMutant,
+      Aerial: satMutant,
+      Terrain: terrainMutant,
+      Hybrid: hybridMutant,
+      Styles: styleMutant,
+      Traffic: trafficMutant,
+      Transit: transitMutant
+    }, {}, {
+      collapsed: false
+    }).addTo(map);
+
+
+
+
+      /*var TILE_URL = 'http://192.168.1.234:8080/maps/bonn/{z}/{x}/{y}.vector.pbf?'
+
+      var layer;
+      var layerID = 'my-custom-layer';
+
+      function initMap() {
+        var myLatLng = {lat: 50.7374, lng: 7.0982};
+
+        // Create a map object and specify the DOM element
+        // for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: myLatLng,
+          zoom: 11
+        });
+
+        // Create a new ImageMapType layer.
+        var layer = new google.maps.ImageMapType({
+          name: layerID,
+          getTileUrl: function(coord, zoom) {
+            console.log(coord);
+            var url = TILE_URL
+              .replace('{x}', coord.x)
+              .replace('{y}', coord.y)
+              .replace('{z}', zoom);
+            return url;
+          },
+          tileSize: new google.maps.Size(256, 256),
+          minZoom: 1,
+          maxZoom: 20
+        });*/
+
+        //Add the new tile layer, then active it
+        map.mapType.set(layerID, layer);
+        map.setMapTypeId(layerID);
+
+
+      }
+
+      // TODO: Add your mapbox token right below!
+      mapboxgl.accessToken = 'pk.eyJ1IjoibmF1amdzIiwiYSI6ImNqanNoejJjajJjbnUzcHJzc3ZpdWRqeWwifQ.l5BWLHz1meMwu5FiuROiKQ';
+
+
+      /*var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v9',
+        center: [7.0982, 50.7374],
+        zoom: 11
+      });*/
+
+      /*  var nav = new mapboxgl.NavigationControl();
+      map.addControl(nav, 'top-right');
+
+      map.on('load', function () {
+        map.addSource('bonn', {
+          'type': 'vector',
+          "tiles": ["http://192.168.1.234:8080/maps/bonn/{z}/{x}/{y}.vector.pbf?"],
+          "tolerance": 0
+        });
+
+        map.addLayer({
+          "id": "road",
+          "source": "bonn",
+          "source-layer": "road",
+          "type": "line",
+          "paint": {
+            "line-color": "#FF0000",
+            "line-width": 1
+          }
+        });
+      });*/
+    </script>
+
+  </body>

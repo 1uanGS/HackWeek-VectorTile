@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+  <html>
+
+  <head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="map_tile_creator.js"></script>
+
+    <style>
+      body {
+        background-color: blue,
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      #checkboxes{
+        position: absolute;
+        border:black 2px solid;
+        margin: 5px;
+        background-color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id='map'></div>
+    <div id="checkboxes">
+      <label>Roads</label>
+      <input type="checkbox" name="road" id="road" checked="checked">
+
+      <label>SpeedWays</label>
+      <input type="checkbox" name="speed_ways" id="speed_ways">
+
+      <label>Lakes</label>
+      <input type="checkbox" name="water" id="water">
+    </div>
+
+    <script>
+
+      var map = mapCreator(document);
+
+      document.getElementById('road').onclick = function() {
+        if ( document.getElementById('road').checked == true )
+        {
+          createRoadLayer(map);
+        } else
+        {    
+          disableLayer(map, "road");
+        }
+      };
+
+      document.getElementById('speed_ways').onclick = function(){
+        if ( document.getElementById('speed_ways').checked == true )
+        {
+          createSpeedWaysLayer(map);
+        } else
+        {    
+          disableLayer(map, "main_roads");
+        }
+      };
+
+      document.getElementById('water').onclick = function(){
+        if ( document.getElementById('water').checked == true )
+        {
+          createRiversLayer(map);
+        } else
+        {    
+          disableLayer(map, "lakes");
+        }
+      };
+
+    </script>
+
+  </body>
